@@ -27,24 +27,23 @@ main () {
     elif [ $curl_exists == 'true' ]; then
         curl -s https://blep.sh/blep.png -o /tmp/blep.png
     fi
-
     if [ -f /tmp/blep.png ]; then image_exists=true; fi
 
-    if [ figlet_exists == 'true' ] && [ lolcat_exists == 'true' ]; then
+    if [ $figlet_exists == 'true' ] && [ $lolcat_exists == 'true' ]; then
         figlet BLEP | lolcat
-    elif [ figlet_exists == 'true' ]; then
+    elif [ $figlet_exists == 'true' ]; then
         figlet BLEP
     fi
 
-    if [ fortune_exists == 'true' ] && [ cowsay_exists == 'true' ] && [ lolcat_exists == 'true' ]; then
+    if [ $fortune_exists == 'true' ] && [ $cowsay_exists == 'true' ] && [ $lolcat_exists == 'true' ]; then
         fortune | cowsay | lolcat
-    elif [ fortune_exists == 'true' ] && [ cowsay_exists == 'true']; then
+    elif [ $fortune_exists == 'true' ] && [ $cowsay_exists == 'true']; then
         fortune | cowsay
-    elif [ fortune_exists == 'true' ]; then
+    elif [ $fortune_exists == 'true' ]; then
         fortune
     fi
 
-    if [ image_exists ]; then
+    if [ $image_exists == 'true' ]; then
         which -s open > /dev/null 2>&1; if [ $? -eq 0 ]; then open /tmp/blep.png; fi
         which -s eog > /dev/null 2>&1; if [ $? -eq 0 ]; then eog /tmp/blep.png; fi
         which -s eom > /dev/null 2>&1; if [ $? -eq 0 ]; then eom /tmp/blep.png; fi

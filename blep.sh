@@ -9,7 +9,7 @@ lolcat_exists=false
 figlet_exists=false
 
 
-look_for_tooling {
+look_for_tooling () {
     which -s wget > /dev/null 2>&1; if [ $? -eq 0 ]; then wget_exists=true; fi
     which -s curl > /dev/null 2>&1; if [ $? -eq 0 ]; then curl_exists=true; fi
     which -s fortune > /dev/null 2>&1; if [ $? -eq 0 ]; then fortune_exists=true; fi
@@ -19,11 +19,15 @@ look_for_tooling {
 }
 
 
-main {
+main () {
     image_exists=false
 
-    if [ $wget_exists == 'true' ]; then wget https://blep.sh/blep.png -O /tmp/blep.png; fi
-    elif [ $curl_exists == 'true' ]; then curl https://blep.sh/blep.png -o /tmp/blep.png; fi
+    if [ $wget_exists == 'true' ]; then
+        wget https://blep.sh/blep.png -O /tmp/blep.png
+    elif [ $curl_exists == 'true' ]; then
+        curl -s https://blep.sh/blep.png -o /tmp/blep.png
+    fi
+
     if [ -f /tmp/blep.png ]; then image_exists=true; fi
 
     if [ figlet_exists == 'true' ] && [ lolcat_exists == 'true' ]; then
@@ -41,17 +45,18 @@ main {
     fi
 
     if [ image_exists ]; then
-        which open; if [ $? -eq 0 ]; then open /tmp/blep.png; fi
-        which eog; if [ $? -eq 0 ]; then eog /tmp/blep.png; fi
-        which eom; if [ $? -eq 0 ]; then eom /tmp/blep.png; fi
-        which shotwell; if [ $? -eq 0 ]; then shotwell /tmp/blep.png; fi
-        which ristretto; if [ $? -eq 0]; then ristretto /tmp/blep.png; fi
-        which firefox; if [ $? -eq 0]; then firefox file:///tmp/blep.png; fi
-        which chrome; if [ $? -eq 0 ]; then chrome file:///tmp/blep.png; fi
-        which chromium; if [ $? -eq 0 ]; then chromium file:///tmp/blep.png; fi
+        which -s open > /dev/null 2>&1; if [ $? -eq 0 ]; then open /tmp/blep.png; fi
+        which -s eog > /dev/null 2>&1; if [ $? -eq 0 ]; then eog /tmp/blep.png; fi
+        which -s eom > /dev/null 2>&1; if [ $? -eq 0 ]; then eom /tmp/blep.png; fi
+        which -s shotwell > /dev/null 2>&1; if [ $? -eq 0 ]; then shotwell /tmp/blep.png; fi
+        which -s ristretto > /dev/null 2>&1; if [ $? -eq 0 ]; then ristretto /tmp/blep.png; fi
+        which -s firefox > /dev/null 2>&1; if [ $? -eq 0 ]; then firefox file:///tmp/blep.png; fi
+        which -s chrome > /dev/null 2>&1; if [ $? -eq 0 ]; then chrome file:///tmp/blep.png; fi
+        which -s chromium > /dev/null 2>&1; if [ $? -eq 0 ]; then chromium file:///tmp/blep.png; fi
+        if [ -f /Applications/Firefox.app/Contents/MacOS/firefox ]; then /Applications/Firefox.app/Contents/MacOS/firefox file:///tmp/blep.png; fi
     fi
 }
 
 
-look_for_tooling()
-main()
+look_for_tooling
+main
